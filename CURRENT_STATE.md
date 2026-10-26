@@ -1,7 +1,8 @@
 # Aktueller Stand
 
-Stand: 26.10.2026 – Version 1 komplett gebaut und online unter https://gym-app-rho-five-69.vercel.app
-(Gastmodus, Supabase noch nicht eingerichtet). Noch **nicht am iPhone getestet**.
+Stand: 26.10.2026 – Version 1 komplett gebaut und online unter https://gym-app-rho-five-69.vercel.app.
+Supabase-Projekt `gym-app` (Ref `khgebmmcriqcmqpnookn`, Region eu-west-2/London, Organisation „iron log“) ist
+eingerichtet und mit Vercel verbunden. Noch **nicht am iPhone getestet**, noch **kein Konto angelegt**.
 
 ## Geprüft und funktioniert
 
@@ -15,6 +16,7 @@ Stand: 26.10.2026 – Version 1 komplett gebaut und online unter https://gym-app
   - Übersicht, Verlauf, Fortschritt, Pläne, Plan bearbeiten, Übungen, Körpergewicht, Einstellungen laden ohne Fehler
   - Kein seitliches Überlaufen auf 375 px
 - Vercel: Deployment läuft, direkter Aufruf von `/verlauf` funktioniert, Manifest/Icon/Service Worker werden ausgeliefert
+- Supabase: Schema ausgeführt; ohne Anmeldung wird der Zugriff auf `records` abgewiesen (401 „permission denied“); Auth-Dienst erreichbar
 
 ## Gebaut, aber noch ungetestet
 

@@ -6,8 +6,9 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 
 - [x] GitHub-Repo `gym-app` anlegen und Code pushen
 - [x] Vercel-Projekt aus dem Repo anlegen, erste Version online (https://gym-app-rho-five-69.vercel.app)
-- [ ] Supabase-Projekt anlegen, `supabase/schema.sql` ausführen, Env-Variablen in Vercel + `.env`
-- [ ] Supabase: Site URL auf die Vercel-Adresse setzen
+- [x] Supabase-Projekt anlegen, `supabase/schema.sql` ausführen, Env-Variablen in Vercel + `.env`
+- [x] Supabase: Site URL auf die Vercel-Adresse setzen
+- [ ] Eigenes Konto in der App anlegen (Karl) und E-Mail bestätigen
 
 ## Test am iPhone (Version 1)
 

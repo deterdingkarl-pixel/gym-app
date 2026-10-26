@@ -34,6 +34,10 @@ create trigger records_guard before insert or update on public.records
   for each row execute function public.records_guard();
 
 -- Zugriff: jede/r sieht und ändert nur die eigenen Zeilen. Endgültiges Löschen ist nicht erlaubt.
+-- Rechte ausdrücklich vergeben (falls „Automatically expose new tables“ im Projekt aus ist).
+revoke all on public.records from anon;
+grant select, insert, update on public.records to authenticated;
+
 alter table public.records enable row level security;
 
 drop policy if exists "records_select_own" on public.records;
