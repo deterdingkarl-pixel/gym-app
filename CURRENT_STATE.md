@@ -1,6 +1,7 @@
 # Aktueller Stand
 
-Stand: 26.10.2026 – Version 1 komplett gebaut, noch **nicht am iPhone getestet**, noch **nicht deployed**.
+Stand: 26.10.2026 – Version 1 komplett gebaut und online unter https://gym-app-rho-five-69.vercel.app
+(Gastmodus, Supabase noch nicht eingerichtet). Noch **nicht am iPhone getestet**.
 
 ## Geprüft und funktioniert
 
@@ -13,6 +14,7 @@ Stand: 26.10.2026 – Version 1 komplett gebaut, noch **nicht am iPhone getestet
   - Wert ändern (Komma „92,5“) → automatisch gespeichert, nach Neuladen noch da, Training wird fortgesetzt, Dauer läuft
   - Übersicht, Verlauf, Fortschritt, Pläne, Plan bearbeiten, Übungen, Körpergewicht, Einstellungen laden ohne Fehler
   - Kein seitliches Überlaufen auf 375 px
+- Vercel: Deployment läuft, direkter Aufruf von `/verlauf` funktioniert, Manifest/Icon/Service Worker werden ausgeliefert
 
 ## Gebaut, aber noch ungetestet
 
@@ -24,7 +26,6 @@ Stand: 26.10.2026 – Version 1 komplett gebaut, noch **nicht am iPhone getestet
 - Körpergewicht eintragen/löschen und Diagramm
 - Fortschritts-Diagramm mit echten Daten über mehrere Trainings
 - Backup Export/Import, kg/lb-Umschaltung, Hell/Dunkel
-- Vercel-Deployment und Neuladen von Unterseiten dort
 
 ## Bekannte Einschränkungen
 
