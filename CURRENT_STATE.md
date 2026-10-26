@@ -2,7 +2,8 @@
 
 Stand: 26.10.2026 – Version 1 komplett gebaut und online unter https://gym-app-rho-five-69.vercel.app.
 Supabase-Projekt `gym-app` (Ref `khgebmmcriqcmqpnookn`, Region eu-west-2/London, Organisation „iron log“) ist
-eingerichtet und mit Vercel verbunden. Noch **nicht am iPhone getestet**, noch **kein Konto angelegt**.
+eingerichtet und mit Vercel verbunden. Karls Konto existiert; Login und Abgleich iPhone ↔ Computer
+von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systematisch getestet** (siehe TODO.md).
 
 ## Geprüft und funktioniert
 
@@ -17,12 +18,12 @@ eingerichtet und mit Vercel verbunden. Noch **nicht am iPhone getestet**, noch *
   - Kein seitliches Überlaufen auf 375 px
 - Vercel: Deployment läuft, direkter Aufruf von `/verlauf` funktioniert, Manifest/Icon/Service Worker werden ausgeliefert
 - Supabase: Schema ausgeführt; ohne Anmeldung wird der Zugriff auf `records` abgewiesen (401 „permission denied“); Auth-Dienst erreichbar
+- Von Karl getestet: Konto anlegen + E-Mail-Bestätigung, Login, Abgleich zwischen iPhone und Computer
 
 ## Gebaut, aber noch ungetestet
 
 - Alles am echten iPhone (Tastatur, Safe-Area, Homescreen-Icon, Offline-Start)
-- Login/Registrierung und Cloud-Abgleich mit echtem Supabase-Projekt (Logik ist per Tests abgesichert,
-  die Anbindung an Supabase selbst noch nicht)
+- Abmelden, Gastmodus → Konto (Übernahme-Rückfrage), „Alles neu aus der Cloud holen“
 - Übung tauschen/hinzufügen, Satz +/−, Übung entfernen im Training (per Klick)
 - Plan bearbeiten (Reihenfolge, Zielwerte, Notizen), eigene Übungen anlegen/bearbeiten/löschen
 - Körpergewicht eintragen/löschen und Diagramm

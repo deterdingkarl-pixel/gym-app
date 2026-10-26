@@ -8,7 +8,7 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 - [x] Vercel-Projekt aus dem Repo anlegen, erste Version online (https://gym-app-rho-five-69.vercel.app)
 - [x] Supabase-Projekt anlegen, `supabase/schema.sql` ausführen, Env-Variablen in Vercel + `.env`
 - [x] Supabase: Site URL auf die Vercel-Adresse setzen
-- [ ] Eigenes Konto in der App anlegen (Karl) und E-Mail bestätigen
+- [x] Eigenes Konto in der App anlegen (Karl) und E-Mail bestätigen
 
 ## Test am iPhone (Version 1)
 
@@ -27,7 +27,8 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 - [ ] Übersicht: Wochenserie, Kalender, letzte Einheit
 - [ ] Körpergewicht: eintragen, Verlauf, löschen
 - [ ] Einstellungen: kg/lb, Hell/Dunkel, Backup exportieren und importieren
-- [ ] Login, Abgleich iPhone ↔ Computer, Abmelden
+- [x] Login und Abgleich iPhone ↔ Computer
+- [ ] Abmelden (inkl. Warnung bei nicht hochgeladenen Änderungen)
 - [ ] Offline im Gym: App startet, Einträge werden später hochgeladen
 
 ## Später (nicht Version 1)
