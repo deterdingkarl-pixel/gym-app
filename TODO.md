@@ -16,7 +16,7 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 - [x] Mit echten Daten prüfen: Welche Werte kommen an, welche zeigen „–“? Feldnamen in `src/lib/garmin.ts` anpassen
 - [x] Ohne Anmeldung bekommt man online keine Daten
 - [ ] Fremdes Konto bekommt online keine Daten (bisher nur per Test geprüft)
-- [ ] Garmin-Reiter am iPhone prüfen
+- [x] Garmin-Reiter am iPhone prüfen
 - [ ] Schlüssel läuft nach spätestens einem Jahr ab: neuen erstellen und in Vercel ersetzen (Garmin erinnert per Mail)
 
 ## Test am iPhone (Version 1)

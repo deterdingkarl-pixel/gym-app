@@ -34,7 +34,7 @@ von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systemati
 - Backup Export/Import, kg/lb-Umschaltung, Hell/Dunkel
 
 - **Garmin-Reiter:** Am Computer mit Karls echten Daten geprüft: alle sieben Bereiche kommen an, Feldnamen sind daran angepasst,
-  ohne Anmeldung gesperrt. Am iPhone noch offen. Ein fremdes Konto online nicht ausprobiert (nur per Test abgesichert).
+  ohne Anmeldung gesperrt. Von Karl am iPhone bestätigt. Ein fremdes Konto online nicht ausprobiert (nur per Test abgesichert).
 
 ## Bekannte Einschränkungen
 
