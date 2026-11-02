@@ -25,10 +25,15 @@ Diese Datei ist für jeden, der weiterarbeitet (auch andere Claude-Chats). Vor �
 
 ## Fachliche Entscheidungen (mit Karl abgestimmt bzw. als Standard gesetzt)
 
-- **Vorbelegung:** Beim Öffnen einer Kategorie stehen die Werte vom letzten Training dieser Übung da
-  (grau). Gibt es keine Historie: Zielwerte aus dem Plan. Die Satzanzahl kommt ebenfalls vom letzten Mal.
+- **Vorbelegung:** Beim Öffnen einer Kategorie stehen die Werte vom letzten Training dieser Übung grau im Feld
+  (als Platzhalter, nicht als Text). Gibt es keine Historie: Zielwerte aus dem Plan. Sätze: wie beim letzten Mal,
+  mindestens aber so viele wie im Plan (fehlende kommen aus dem Plan).
+- **Überschreiben:** Tippen ersetzt den grauen Wert sofort, nichts muss gelöscht oder markiert werden. Das gilt für
+  alle Zahlenfelder (`NumberField`). Feld wieder leeren = bisheriger Wert bleibt.
 - **Erledigt:** Ein Satz zählt erst, wenn ✓ getippt oder ein Wert geändert wird. Nur erledigte Sätze zählen
   für Historie, Fortschritt, Wochenserie und „letzte Werte“.
+- **Fortschritt:** Reiter je Plan (Freies Training nur bei Übungen außerhalb der Pläne). Liste zeigt alle Plan-Übungen,
+  auch untrainierte, plus zusätzlich in der Kategorie trainierte. Antippen öffnet den Verlauf der Übung (`/fortschritt/:id`).
 - **Speichern:** Ein neues Training wird erst bei der ersten Eingabe gespeichert; danach jede Änderung sofort.
 - **Gleiche Kategorie am selben Tag** → das bestehende Training wird fortgesetzt.
 - **Dauer:** vom ersten Eintrag bis jetzt, solange das Training läuft (letzter Eintrag < 3 h her und nicht

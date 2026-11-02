@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
+import { SEED_PLANS } from '../data/seedPlans'
 import { addDays } from './date'
-import { exerciseProgress, personalRecords, weekStreak } from './stats'
+import { exerciseProgress, personalRecords, progressGroups, weekStreak } from './stats'
 import type { Workout } from './types'
 
 /** n Trainingstage ab Montag `monday` */
@@ -38,6 +39,49 @@ describe('weekStreak', () => {
     // Sa+So der Vorwoche und Mo+Di dieser Woche = je 2 Tage → keine Serie
     const d = ['2026-10-17', '2026-10-18', '2026-10-19', '2026-10-20']
     expect(weekStreak(d, '2026-10-25')).toBe(0)
+  })
+})
+
+describe('progressGroups', () => {
+  const trained = (kind: Workout['kind'], exerciseId: string, done = true): Workout => ({
+    id: `${kind}-${exerciseId}`,
+    date: '2026-10-01',
+    kind,
+    startedAt: null,
+    lastEntryAt: null,
+    finishedAt: null,
+    updatedAt: 1,
+    deleted: false,
+    exercises: [{ uid: exerciseId, exerciseId, sets: [{ weight: 50, reps: 5, done }] }],
+  })
+
+  it('zeigt die drei Pläne in Karls Reihenfolge, auch ohne Training', () => {
+    const groups = progressGroups(SEED_PLANS, [])
+    expect(groups.map((g) => g.name)).toEqual(['Beine', 'Arme & Schulter', 'Brust & Rücken'])
+    expect(groups[0].exercises[0]).toEqual({ exerciseId: 'beinbeuger-liegend', points: [] })
+    expect(groups[0].exercises).toHaveLength(6)
+  })
+
+  it('ordnet Trainingsdaten der Plan-Übung zu', () => {
+    const groups = progressGroups(SEED_PLANS, [trained('arme', 'preacher-curl')])
+    expect(groups[1].exercises[0].points).toHaveLength(1)
+  })
+
+  it('Zusatzübungen hängen hinten an der Kategorie, in der sie trainiert wurden', () => {
+    const groups = progressGroups(SEED_PLANS, [trained('beine', 'kniebeuge')])
+    expect(groups[0].exercises.at(-1)?.exerciseId).toBe('kniebeuge')
+    expect(groups[0].exercises).toHaveLength(7)
+  })
+
+  it('nicht erledigte Sätze erzeugen keine Zusatzübung', () => {
+    expect(progressGroups(SEED_PLANS, [trained('beine', 'kniebeuge', false)])[0].exercises).toHaveLength(6)
+  })
+
+  it('„Freies Training“ nur für Übungen außerhalb der Pläne', () => {
+    expect(progressGroups(SEED_PLANS, [trained('frei', 'latzug')])).toHaveLength(3)
+    const groups = progressGroups(SEED_PLANS, [trained('frei', 'plank')])
+    expect(groups[3].name).toBe('Freies Training')
+    expect(groups[3].exercises.map((e) => e.exerciseId)).toEqual(['plank'])
   })
 })
 

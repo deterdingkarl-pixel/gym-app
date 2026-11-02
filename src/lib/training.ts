@@ -32,9 +32,13 @@ export function lastSetsFor(workouts: Workout[], exerciseId: string, excludeWork
   return null
 }
 
-/** Vorbelegung für eine Übung: letzte Werte, sonst Plan-Zielwerte, sonst ein leerer Satz. */
+/**
+ * Vorbelegung für eine Übung: letzte Werte, sonst Plan-Zielwerte, sonst ein leerer Satz.
+ * Wurden letztes Mal weniger Sätze eingetragen als im Plan stehen, bleiben die übrigen Plan-Sätze erhalten.
+ */
 export function prefillSets(workouts: Workout[], exerciseId: string, fallback: TargetSet[] | undefined, excludeWorkoutId?: string) {
-  const source = lastSetsFor(workouts, exerciseId, excludeWorkoutId) ?? fallback ?? []
+  const last = lastSetsFor(workouts, exerciseId, excludeWorkoutId) ?? []
+  const source = [...last, ...(fallback ?? []).slice(last.length)]
   const sets = source.length > 0 ? source : [{ weight: null, reps: null }]
   return sets.map((s) => ({ weight: s.weight, reps: s.reps, done: false }))
 }

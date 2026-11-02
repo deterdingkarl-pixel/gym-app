@@ -180,7 +180,7 @@ export function WorkoutEditor({ workout, onChange, onFinish }: { workout: Workou
       )}
 
       <p className="px-1 text-center text-sm text-zinc-500">
-        Grau = Vorschlag vom letzten Mal. Ein Satz zählt, sobald du ✓ tippst oder einen Wert änderst. Alles wird automatisch gespeichert.
+        Grau = dein letztes Training. Einfach neue Zahl tippen, oder ✓ wenn es gleich geblieben ist. Alles wird automatisch gespeichert.
       </p>
 
       <ExercisePicker

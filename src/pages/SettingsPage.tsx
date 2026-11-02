@@ -1,24 +1,7 @@
 import { useRef, useState } from 'react'
-import { PageHeader } from '../components/ui'
+import { PageHeader, Segmented } from '../components/ui'
 import { localDate } from '../lib/date'
 import { useStore, type Theme } from '../state/store'
-
-function Segmented<T extends string>({ value, options, onChange }: { value: T; options: [T, string][]; onChange: (v: T) => void }) {
-  return (
-    <div className="grid rounded-xl bg-zinc-200 p-1 dark:bg-zinc-800" style={{ gridTemplateColumns: `repeat(${options.length}, 1fr)` }}>
-      {options.map(([v, label]) => (
-        <button
-          key={v}
-          className={`min-h-10 rounded-lg text-sm font-medium ${value === v ? 'bg-white shadow-sm dark:bg-zinc-600' : 'text-zinc-600 dark:text-zinc-400'}`}
-          onClick={() => onChange(v)}
-          aria-pressed={value === v}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
-  )
-}
 
 export function SettingsPage() {
   const { settings, setSettings, mode, email, sync, syncNow, exportBackup, importBackupText, signOut, cloudAvailable } = useStore()

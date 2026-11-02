@@ -3,6 +3,7 @@ import { Layout } from './components/Layout'
 import { BodyWeightPage } from './pages/BodyWeightPage'
 import { CategoryWorkoutPage } from './pages/CategoryWorkoutPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { ExerciseProgressPage } from './pages/ExerciseProgressPage'
 import { ExercisesPage } from './pages/ExercisesPage'
 import { HistoryPage } from './pages/HistoryPage'
 import { MorePage } from './pages/MorePage'
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="uebersicht" element={<DashboardPage />} />
           <Route path="verlauf" element={<HistoryPage />} />
           <Route path="fortschritt" element={<ProgressPage />} />
+          <Route path="fortschritt/:id" element={<ExerciseProgressPage />} />
           <Route path="mehr" element={<MorePage />} />
           <Route path="plaene" element={<PlansPage />} />
           <Route path="plaene/:id" element={<PlanEditPage />} />

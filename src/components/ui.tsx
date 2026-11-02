@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router'
 import { parseDecimal, formatNumber } from '../lib/numbers'
 import { useStore } from '../state/store'
@@ -21,7 +21,9 @@ export function PageHeader({ title, back, right }: { title: string; back?: boole
 
 /**
  * Zahlenfeld mit passender iPhone-Tastatur. Komma und Punkt erlaubt.
- * Hält den getippten Text lokal (z. B. „47,“), meldet nach außen nur gültige Zahlen oder null.
+ * Der bisherige Wert steht als graue Vorgabe im Feld, solange nichts getippt wurde: Das erste Zeichen
+ * ersetzt ihn, ohne dass man etwas löschen oder markieren muss. Feld wieder leeren = bisheriger Wert bleibt.
+ * `muted`: Wert ist nur ein Vorschlag und bleibt auch ohne Fokus grau.
  */
 export function NumberField({
   value,
@@ -38,32 +40,33 @@ export function NumberField({
   muted?: boolean
   label: string
 }) {
-  const [text, setText] = useState(formatNumber(value))
+  // Getippter Text seit dem Antippen (z. B. „47,“); null = noch nichts getippt
+  const [typed, setTyped] = useState<string | null>(null)
   const [focused, setFocused] = useState(false)
-  useEffect(() => {
-    if (!focused) setText(formatNumber(value))
-  }, [value, focused])
+  const valueAtFocus = useRef(value)
+  const hint = formatNumber(focused ? valueAtFocus.current : value)
   return (
     <input
       aria-label={label}
-      className={`field text-center tabular-nums ${muted ? 'text-zinc-400 dark:text-zinc-500' : ''} ${className}`}
+      className={`field text-center tabular-nums placeholder:text-zinc-500 dark:placeholder:text-zinc-400 ${className}`}
       inputMode={decimal ? 'decimal' : 'numeric'}
       enterKeyHint="next"
       autoComplete="off"
-      value={text}
-      onFocus={(e) => {
+      placeholder={hint}
+      value={typed ?? (focused || muted ? '' : hint)}
+      onFocus={() => {
+        valueAtFocus.current = value
         setFocused(true)
-        e.currentTarget.select()
       }}
       onBlur={() => {
         setFocused(false)
-        setText(formatNumber(value))
+        setTyped(null)
       }}
       onChange={(e) => {
         const raw = decimal ? e.target.value : e.target.value.replace(/[^\d]/g, '')
         if (raw !== '' && parseDecimal(raw) === null) return
-        setText(raw)
-        onChange(parseDecimal(raw))
+        setTyped(raw)
+        onChange(raw === '' ? valueAtFocus.current : parseDecimal(raw))
       }}
     />
   )
@@ -116,6 +119,23 @@ export function Sheet({ open, onClose, title, children }: { open: boolean; onClo
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto p-4">{children}</div>
       </div>
+    </div>
+  )
+}
+
+export function Segmented<T extends string>({ value, options, onChange }: { value: T; options: [T, string][]; onChange: (v: T) => void }) {
+  return (
+    <div className="grid rounded-xl bg-zinc-200 p-1 dark:bg-zinc-800" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
+      {options.map(([v, label]) => (
+        <button
+          key={v}
+          className={`min-h-10 rounded-lg px-1 text-sm leading-tight font-medium ${value === v ? 'bg-white shadow-sm dark:bg-zinc-600' : 'text-zinc-600 dark:text-zinc-400'}`}
+          onClick={() => onChange(v)}
+          aria-pressed={value === v}
+        >
+          {label}
+        </button>
+      ))}
     </div>
   )
 }

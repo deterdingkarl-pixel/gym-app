@@ -1,7 +1,7 @@
 import { addDays, weekStart } from './date'
 import { estimate1RM } from './numbers'
 import { activeWorkouts, doneSets, hasEntries } from './training'
-import type { Workout } from './types'
+import { CATEGORIES, KIND_NAMES, type Plan, type Workout, type WorkoutKind } from './types'
 
 /** Alle Trainingstage (verschiedene Daten mit mindestens einem erledigten Satz). */
 export function trainingDays(workouts: Workout[]): Set<string> {
@@ -79,11 +79,32 @@ export function personalRecords(points: ProgressPoint[]): PersonalRecords {
   return { heaviest, best1RM }
 }
 
-/** IDs aller Übungen, die mindestens einmal mit erledigtem Satz trainiert wurden. */
-export function trainedExerciseIds(workouts: Workout[]): Map<string, Workout['kind']> {
-  // Übung → Kategorie des neuesten Trainings, in dem sie vorkam (für die Gruppierung)
-  const result = new Map<string, Workout['kind']>()
-  for (const w of activeWorkouts(workouts))
-    for (const e of w.exercises) if (!result.has(e.exerciseId) && doneSets(e).length > 0) result.set(e.exerciseId, w.kind)
-  return result
+export interface ProgressGroup {
+  kind: WorkoutKind
+  name: string
+  exercises: { exerciseId: string; points: ProgressPoint[] }[]
+}
+
+/**
+ * Fortschritt, unterteilt nach den drei Plänen: zuerst alle Übungen des Plans in Plan-Reihenfolge
+ * (auch noch nicht trainierte), danach Übungen, die zusätzlich in dieser Kategorie trainiert wurden.
+ * Die Gruppe „Freies Training“ gibt es nur, wenn dort Übungen liegen, die in keinem Plan stehen.
+ */
+export function progressGroups(plans: Plan[], workouts: Workout[]): ProgressGroup[] {
+  const trainedByKind = new Map<WorkoutKind, string[]>()
+  for (const w of [...activeWorkouts(workouts)].reverse()) {
+    const ids = trainedByKind.get(w.kind) ?? []
+    for (const e of w.exercises) if (!ids.includes(e.exerciseId) && doneSets(e).length > 0) ids.push(e.exerciseId)
+    trainedByKind.set(w.kind, ids)
+  }
+  const toItems = (ids: Iterable<string>) => [...new Set(ids)].map((exerciseId) => ({ exerciseId, points: exerciseProgress(workouts, exerciseId) }))
+
+  const groups: ProgressGroup[] = CATEGORIES.map((c) => {
+    const planIds = plans.find((p) => !p.deleted && p.category === c.id)?.exercises.map((e) => e.exerciseId) ?? []
+    return { kind: c.id, name: c.name, exercises: toItems([...planIds, ...(trainedByKind.get(c.id) ?? [])]) }
+  })
+  const listed = new Set(groups.flatMap((g) => g.exercises.map((e) => e.exerciseId)))
+  const free = (trainedByKind.get('frei') ?? []).filter((id) => !listed.has(id))
+  if (free.length > 0) groups.push({ kind: 'frei', name: KIND_NAMES.frei, exercises: toItems(free) })
+  return groups
 }

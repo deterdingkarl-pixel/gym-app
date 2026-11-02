@@ -87,6 +87,21 @@ describe('buildDraft', () => {
     expect(d.exercises[1].sets[0]).toEqual({ weight: 240, reps: 10, done: false })
     expect(JSON.stringify(plan)).toBe(before)
   })
+
+  it('zuletzt nur Satz 1 eingetragen: Satz 2 bleibt aus dem Plan erhalten', () => {
+    const h = [workout({ id: 'a', date: '2026-10-20', exercises: [{ uid: '1', exerciseId: 'beinbeuger-liegend', sets: [set(92.5, 6)] }] })]
+    const d = buildDraft({ id: 'w', kind: 'beine', date: '2026-10-26', plan, workouts: h, newUid })
+    expect(d.exercises[0].sets).toEqual([
+      { weight: 92.5, reps: 6, done: false },
+      { weight: 86, reps: 5, done: false },
+    ])
+  })
+
+  it('zuletzt mehr Sätze als im Plan: alle bleiben', () => {
+    const h = [workout({ id: 'a', date: '2026-10-20', exercises: [{ uid: '1', exerciseId: 'beinbeuger-liegend', sets: [set(1, 1), set(2, 2), set(3, 3)] }] })]
+    const d = buildDraft({ id: 'w', kind: 'beine', date: '2026-10-26', plan, workouts: h, newUid })
+    expect(d.exercises[0].sets).toHaveLength(3)
+  })
 })
 
 describe('findOpenWorkout', () => {
