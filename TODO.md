@@ -14,8 +14,8 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 
 - [ ] App zum Home-Bildschirm hinzufügen, Icon und Name „Gym App“ prüfen
 - [ ] Beine/Arme/Brust öffnen: Startwerte stimmen mit dem Plan überein
-- [ ] Werte ändern, ✓ tippen, App schließen und neu öffnen → alles noch da
-- [ ] Nächstes Training derselben Kategorie zeigt die Werte vom letzten Mal
+- [x] Werte ändern, ✓ tippen, App schließen und neu öffnen → alles noch da
+- [x] Nächstes Training derselben Kategorie zeigt die Werte vom letzten Mal grau, Tippen überschreibt sie
 - [ ] Übung tauschen, hinzufügen, entfernen; Satz hinzufügen/entfernen
 - [ ] Datum ändern (Nachtragen)
 - [ ] Training kurz nach Mitternacht landet am richtigen Tag
@@ -23,7 +23,8 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 - [ ] Verlauf: Training öffnen, bearbeiten, löschen
 - [ ] Pläne: Reihenfolge, Zielwerte, Notiz, Übung hinzufügen (Liste, Suche, eigene Übung)
 - [ ] Übungsbibliothek: Suche, Filter, eigene Übung anlegen/bearbeiten/löschen
-- [ ] Fortschritt: Diagramm, Bestleistungen, Auswahl nur trainierter Übungen
+- [x] Fortschritt: Reiter je Plan, Übung öffnen
+- [ ] Fortschritt: Diagramm und Bestleistungen über mehrere echte Trainings
 - [ ] Übersicht: Wochenserie, Kalender, letzte Einheit
 - [ ] Körpergewicht: eintragen, Verlauf, löschen
 - [ ] Einstellungen: kg/lb, Hell/Dunkel, Backup exportieren und importieren

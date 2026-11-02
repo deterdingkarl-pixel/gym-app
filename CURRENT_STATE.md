@@ -21,7 +21,7 @@ von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systemati
 - Von Karl getestet: Konto anlegen + E-Mail-Bestätigung, Login, Abgleich zwischen iPhone und Computer
 - Im Browser (375 px): grauer Wert vom letzten Training, Tippen überschreibt, ✓ übernimmt den grauen Wert,
   fehlender Satz bleibt aus dem Plan erhalten; Fortschritt mit Plan-Reitern, Übungs-Verlauf, Zurück landet im selben Reiter
-  (am echten iPhone noch nicht getestet)
+  (von Karl am iPhone bestätigt)
 
 ## Gebaut, aber noch ungetestet
 
