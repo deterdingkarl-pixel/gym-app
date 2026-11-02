@@ -33,6 +33,9 @@ von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systemati
 - Fortschritts-Diagramm mit echten Daten über mehrere Trainings
 - Backup Export/Import, kg/lb-Umschaltung, Hell/Dunkel
 
+- **Garmin-Reiter:** Server-Logik per Tests geprüft (Zugriffsschutz, Fehlerfälle), Oberfläche nur mit erfundenen Beispieldaten.
+  Noch nie gegen echte Garmin-Daten gelaufen: Die Antwortfelder sind geschätzt und müssen mit dem echten Schlüssel geprüft werden.
+
 ## Bekannte Einschränkungen
 
 - Bearbeiten desselben Trainings gleichzeitig auf zwei Geräten: die zuletzt gespeicherte Version gewinnt (ganzes Training).

@@ -10,6 +10,12 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 - [x] Supabase: Site URL auf die Vercel-Adresse setzen
 - [x] Eigenes Konto in der App anlegen (Karl) und E-Mail bestätigen
 
+## Garmin
+
+- [ ] Karl: Schlüssel in Garmin Connect erstellen, `GARMIN_API_KEY` und `GARMIN_ALLOWED_EMAIL` in Vercel eintragen
+- [ ] Mit echten Daten prüfen: Welche Werte kommen an, welche zeigen „–“? Feldnamen in `src/lib/garmin.ts` anpassen
+- [ ] Fremdes Konto bekommt online keine Daten, ohne Anmeldung ebenfalls nicht
+
 ## Test am iPhone (Version 1)
 
 - [ ] App zum Home-Bildschirm hinzufügen, Icon und Name „Gym App“ prüfen

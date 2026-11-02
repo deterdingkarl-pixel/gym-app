@@ -75,6 +75,15 @@ Cloud: eine Supabase-Tabelle `records` (`user_id, kind, id, data, updated_at, de
 - Startplan mit `updatedAt = 0` verliert immer gegen jede echte Cloud-Version → keine Duplikate, kein Überschreiben.
 - Backup-Import nutzt dieselbe Regel und markiert übernommene Einträge als `dirty`.
 
+## Garmin (`api/`, `src/lib/garmin.ts`, `src/pages/GarminPage.tsx`)
+
+- Offizielle Garmin Personal API mit persönlichem Schlüssel (nur eigene Daten, nur lesen, nur Abholen). Kein Passwort-Login, keine inoffiziellen Bibliotheken.
+- **Der Schlüssel bleibt auf dem Server** (`GARMIN_API_KEY`, nie mit `VITE_`). Die App ruft nur `/api/garmin` auf.
+- **Nur `GARMIN_ALLOWED_EMAIL` darf abrufen.** Registrierung in der App ist offen, „angemeldet“ allein reicht also nicht. Fehlt die Variable, bleibt alles gesperrt.
+- „Live“ heißt: so frisch wie die letzte Uhr-Synchronisierung. Abruf beim Öffnen, beim Zurückkehren in die App, alle 5 Minuten bei offenem Reiter, per Knopf. Der Server fragt Garmin höchstens einmal pro Minute.
+- Der letzte Stand liegt lokal in IndexedDB (`meta`), wird nicht in die Cloud synchronisiert und beim Abmelden gelöscht.
+- Garmin-Daten werden nicht mit den Trainings der App verknüpft. Antwortfelder sind von Garmin nicht öffentlich beschrieben, `src/lib/garmin.ts` liest sie deshalb tolerant; fehlt etwas, zeigt die App „–“.
+
 ## Technik
 
 - PWA: `public/manifest.webmanifest`, Icons per `npm run icons`, kleiner Service Worker `public/sw.js`

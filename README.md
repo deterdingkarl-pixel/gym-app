@@ -43,6 +43,18 @@ Am iPhone im selben WLAN testen: `npm run dev -- --host` und die angezeigte Netz
 
 `vercel.json` sorgt dafür, dass Unterseiten (z. B. `/verlauf`) auch beim Neuladen funktionieren.
 
+## Garmin-Reiter einrichten
+
+Nutzt Garmins offizielle [Personal API](https://developer.garmin.com/gc-developer-program/personal/personal-api/). Der Reiter erscheint nur mit Konto.
+
+1. In [Garmin Connect](https://connect.garmin.com/app/settings/personalApiToken) einen Schlüssel erstellen (längste Laufzeit: 1 Jahr). Er wird nur einmal angezeigt. Wie ein Passwort behandeln.
+2. In Vercel unter **Settings → Environment Variables** (ohne `VITE_`-Vorsatz, sonst landet der Wert in der App):
+   - `GARMIN_API_KEY`: der Schlüssel
+   - `GARMIN_ALLOWED_EMAIL`: die E-Mail des eigenen App-Kontos. Nur dieses Konto darf die Daten abrufen.
+3. Neu deployen. Läuft der Schlüssel ab, einen neuen erstellen und in Vercel ersetzen.
+
+Der Server-Baustein liegt in `api/`. `npm run dev` startet ihn nicht; der Reiter funktioniert nur auf Vercel.
+
 ## Aufs iPhone
 
 Vercel-Adresse in Safari öffnen → Teilen → **Zum Home-Bildschirm**. Wichtig: Nur so behält Safari die
@@ -58,6 +70,7 @@ src/
   state/       App-Zustand (store.tsx)
   components/  wiederverwendbare Bausteine (Übungsauswahl, Trainings-Editor …)
   pages/       eine Datei pro Seite
+api/                  Vercel-Funktion für Garmin (einziger Server-Code, hält den Schlüssel)
 supabase/schema.sql   Datenbank-Schema
 public/               Manifest, Icons, Service Worker
 ```

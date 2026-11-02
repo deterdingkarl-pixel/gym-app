@@ -31,6 +31,12 @@ export const IconChart = ({ className }: P) => (
     <path d="M3 3v18h18M7 15l4-4 3 3 6-7" />
   </svg>
 )
+export const IconWatch = ({ className }: P) => (
+  <svg {...base(className)}>
+    <rect x="6.5" y="7" width="11" height="10" rx="2.5" />
+    <path d="M9 7l.6-4h4.8L15 7M9 17l.6 4h4.8l.6-4M12 10v2.5l1.5 1" />
+  </svg>
+)
 export const IconMore = ({ className }: P) => (
   <svg {...base(className)}>
     <circle cx="5" cy="12" r="1.2" />

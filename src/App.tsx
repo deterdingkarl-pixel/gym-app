@@ -5,6 +5,7 @@ import { CategoryWorkoutPage } from './pages/CategoryWorkoutPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { ExerciseProgressPage } from './pages/ExerciseProgressPage'
 import { ExercisesPage } from './pages/ExercisesPage'
+import { GarminPage } from './pages/GarminPage'
 import { HistoryPage } from './pages/HistoryPage'
 import { MorePage } from './pages/MorePage'
 import { NotFoundPage } from './pages/NotFoundPage'
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="verlauf" element={<HistoryPage />} />
           <Route path="fortschritt" element={<ProgressPage />} />
           <Route path="fortschritt/:id" element={<ExerciseProgressPage />} />
+          <Route path="garmin" element={<GarminPage />} />
           <Route path="mehr" element={<MorePage />} />
           <Route path="plaene" element={<PlansPage />} />
           <Route path="plaene/:id" element={<PlanEditPage />} />
