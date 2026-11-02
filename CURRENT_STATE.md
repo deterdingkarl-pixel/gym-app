@@ -33,8 +33,8 @@ von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systemati
 - Fortschritts-Diagramm mit echten Daten über mehrere Trainings
 - Backup Export/Import, kg/lb-Umschaltung, Hell/Dunkel
 
-- **Garmin-Reiter:** Server-Logik per Tests geprüft (Zugriffsschutz, Fehlerfälle), Oberfläche nur mit erfundenen Beispieldaten.
-  Noch nie gegen echte Garmin-Daten gelaufen: Die Antwortfelder sind geschätzt und müssen mit dem echten Schlüssel geprüft werden.
+- **Garmin-Reiter:** Am Computer mit Karls echten Daten geprüft: alle sieben Bereiche kommen an, Feldnamen sind daran angepasst,
+  ohne Anmeldung gesperrt. Am iPhone noch offen. Ein fremdes Konto online nicht ausprobiert (nur per Test abgesichert).
 
 ## Bekannte Einschränkungen
 

@@ -12,9 +12,12 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 
 ## Garmin
 
-- [ ] Karl: Schlüssel in Garmin Connect erstellen, `GARMIN_API_KEY` und `GARMIN_ALLOWED_EMAIL` in Vercel eintragen
-- [ ] Mit echten Daten prüfen: Welche Werte kommen an, welche zeigen „–“? Feldnamen in `src/lib/garmin.ts` anpassen
-- [ ] Fremdes Konto bekommt online keine Daten, ohne Anmeldung ebenfalls nicht
+- [x] Karl: Schlüssel in Garmin Connect erstellen, `GARMIN_API_KEY` und `GARMIN_ALLOWED_EMAIL` in Vercel eintragen
+- [x] Mit echten Daten prüfen: Welche Werte kommen an, welche zeigen „–“? Feldnamen in `src/lib/garmin.ts` anpassen
+- [x] Ohne Anmeldung bekommt man online keine Daten
+- [ ] Fremdes Konto bekommt online keine Daten (bisher nur per Test geprüft)
+- [ ] Garmin-Reiter am iPhone prüfen
+- [ ] Schlüssel läuft nach spätestens einem Jahr ab: neuen erstellen und in Vercel ersetzen (Garmin erinnert per Mail)
 
 ## Test am iPhone (Version 1)
 

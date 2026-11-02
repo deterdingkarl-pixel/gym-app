@@ -95,37 +95,35 @@ export function garminDays(results: Record<string, unknown>, start: string, end:
   const keep = (current: number | null, next: number | null) => next ?? current
 
   for (const row of list(results.summaries)) {
-    apply(row, str(row, 'calendarDate', 'date'), (day) => {
-      day.steps = keep(day.steps, num(row, 'movement.steps', 'totalSteps'))
-      day.stepGoal = keep(day.stepGoal, num(row, 'movement.stepGoal', 'dailyStepGoal'))
-      day.restingHr = keep(day.restingHr, num(row, 'heartRate.restingValue', 'restingHeartRate'))
-      day.stress = keep(day.stress, num(row, 'stress.overallStressLevel', 'stress.averageLevel', 'averageStressLevel'))
-      day.bodyBattery = keep(day.bodyBattery, num(row, 'bodyBattery.mostRecentValue', 'bodyBatteryMostRecentValue'))
+    apply(row, str(row, 'calendarDate'), (day) => {
+      day.steps = keep(day.steps, num(row, 'movement.steps.value'))
+      day.stepGoal = keep(day.stepGoal, num(row, 'movement.steps.goal'))
+      day.restingHr = keep(day.restingHr, num(row, 'heartRate.restingValue'))
+      day.stress = keep(day.stress, num(row, 'stress.avgLevel'))
+      day.bodyBattery = keep(day.bodyBattery, num(row, 'bodyBattery.latestValue'))
     })
   }
   for (const row of list(results.steps)) {
     apply(row, str(row, 'calendarDate'), (day) => {
-      day.steps = keep(day.steps, num(row, 'totalSteps', 'values.totalSteps'))
-      day.stepGoal = keep(day.stepGoal, num(row, 'stepGoal', 'values.stepGoal'))
+      day.steps = keep(day.steps, num(row, 'totalSteps'))
+      day.stepGoal = keep(day.stepGoal, num(row, 'stepGoal'))
     })
   }
   for (const row of list(results.stress)) {
     apply(row, str(row, 'calendarDate'), (day) => {
-      day.stress = keep(day.stress, num(row, 'values.overallStressLevel', 'overallStressLevel', 'values.averageStressLevel'))
+      day.stress = keep(day.stress, num(row, 'values.overallStressLevel'))
     })
   }
   for (const row of list(results.sleep)) {
-    apply(row, str(row, 'calendarDate', 'dailySleepDTO.calendarDate', 'date'), (day) => {
-      day.sleepSeconds = keep(day.sleepSeconds, num(row, 'sleepTimeSeconds', 'dailySleepDTO.sleepTimeSeconds', 'sleepDurationInSeconds', 'durationInSeconds'))
-      day.sleepScore = keep(
-        day.sleepScore,
-        num(row, 'sleepScores.overall.value', 'dailySleepDTO.sleepScores.overall.value', 'sleepScores.overallScore', 'overallSleepScore', 'sleepScore'),
-      )
+    apply(row, str(row, 'calendarDate'), (day) => {
+      day.sleepSeconds = keep(day.sleepSeconds, num(row, 'sleepTimeSeconds'))
+      day.sleepScore = keep(day.sleepScore, num(row, 'sleepScores.overall.value'))
     })
   }
   for (const row of list(results.bodyBattery)) {
-    apply(row, str(row, 'date', 'calendarDate'), (day) => {
-      day.bodyBattery = keep(day.bodyBattery, latestBodyBattery(row))
+    // Nur Ersatz: Die Einzelwerte sind Stichproben, der Wert aus der Tageszusammenfassung ist genauer
+    apply(row, str(row, 'date'), (day) => {
+      day.bodyBattery = day.bodyBattery ?? latestBodyBattery(row)
     })
   }
   const heart = results.heartRate
@@ -139,10 +137,10 @@ export function garminActivities(results: Record<string, unknown>): GarminActivi
   return list(results.activities).map((row, i) => ({
     id: String(at(row, 'activityId') ?? i),
     name: str(row, 'activityName', 'activityType.typeKey') ?? 'Aktivität',
-    date: str(row, 'startTimeLocal', 'startTimeGMT')?.slice(0, 10) ?? null,
-    durationSeconds: num(row, 'duration', 'movingDuration'),
+    date: str(row, 'startTimeLocal')?.slice(0, 10) ?? null,
+    durationSeconds: num(row, 'duration'),
     distanceMeters: num(row, 'distance'),
-    averageHr: num(row, 'averageHR', 'averageHeartRate'),
+    averageHr: num(row, 'averageHR'),
     calories: num(row, 'calories'),
   }))
 }

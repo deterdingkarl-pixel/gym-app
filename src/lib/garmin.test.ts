@@ -16,16 +16,37 @@ describe('garminDays', () => {
   it('führt die Bereiche pro Tag zusammen', () => {
     const [today] = garminDays(
       {
-        summaries: { data: [{ calendarDate: END, movement: { steps: 9120 }, heartRate: { restingValue: 52 } }] },
+        summaries: {
+          data: [
+            {
+              calendarDate: END,
+              movement: { steps: { value: 9500, goal: 8000 } },
+              heartRate: { restingValue: 52 },
+              stress: { avgLevel: 31 },
+              bodyBattery: { latestValue: 58 },
+            },
+          ],
+        },
+        sleep: [{ calendarDate: END, sleepTimeSeconds: 27000, sleepScores: { overall: { value: 78 } } }],
+        bodyBattery: [{ date: END, bodyBatteryValuesArray: [[1, 34], [2, 61]] }],
+      },
+      START,
+      END,
+    )
+    expect(today).toEqual({ date: END, steps: 9500, stepGoal: 8000, restingHr: 52, sleepSeconds: 27000, sleepScore: 78, stress: 31, bodyBattery: 58 })
+  })
+
+  it('fehlt die Tageszusammenfassung, helfen die Einzelbereiche aus', () => {
+    const [today] = garminDays(
+      {
         steps: [{ calendarDate: END, totalSteps: 9500, stepGoal: 8000 }],
         stress: [{ calendarDate: END, values: { overallStressLevel: 31 } }],
-        sleep: [{ calendarDate: END, sleepTimeSeconds: 27000, sleepScores: { overall: { value: 78 } } }],
         bodyBattery: [{ date: END, bodyBatteryValuesArray: [[1, 34], [2, 61], [3, null]] }],
       },
       START,
       END,
     )
-    expect(today).toEqual({ date: END, steps: 9500, stepGoal: 8000, restingHr: 52, sleepSeconds: 27000, sleepScore: 78, stress: 31, bodyBattery: 61 })
+    expect(today).toMatchObject({ steps: 9500, stepGoal: 8000, stress: 31, bodyBattery: 61 })
   })
 
   it('nimmt den Ruhepuls aus dem Herzfrequenz-Bereich, wenn die Tageszusammenfassung fehlt', () => {

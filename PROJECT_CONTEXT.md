@@ -82,7 +82,7 @@ Cloud: eine Supabase-Tabelle `records` (`user_id, kind, id, data, updated_at, de
 - **Nur `GARMIN_ALLOWED_EMAIL` darf abrufen.** Registrierung in der App ist offen, „angemeldet“ allein reicht also nicht. Fehlt die Variable, bleibt alles gesperrt.
 - „Live“ heißt: so frisch wie die letzte Uhr-Synchronisierung. Abruf beim Öffnen, beim Zurückkehren in die App, alle 5 Minuten bei offenem Reiter, per Knopf. Der Server fragt Garmin höchstens einmal pro Minute.
 - Der letzte Stand liegt lokal in IndexedDB (`meta`), wird nicht in die Cloud synchronisiert und beim Abmelden gelöscht.
-- Garmin-Daten werden nicht mit den Trainings der App verknüpft. Antwortfelder sind von Garmin nicht öffentlich beschrieben, `src/lib/garmin.ts` liest sie deshalb tolerant; fehlt etwas, zeigt die App „–“.
+- Garmin-Daten werden nicht mit den Trainings der App verknüpft. Die Feldnamen in `src/lib/garmin.ts` stammen aus echten Antworten; fehlt etwas, zeigt die App „–“.
 
 ## Technik
 
