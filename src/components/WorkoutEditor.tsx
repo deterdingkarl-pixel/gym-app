@@ -1,39 +1,28 @@
-import { useEffect, useMemo, useState } from 'react'
-import { formatDuration, isValidLocalDate, localDate } from '../lib/date'
+import { useMemo, useState } from 'react'
+import { isValidLocalDate } from '../lib/date'
 import { fromDisplayWeight, toDisplayWeight } from '../lib/numbers'
-import { isRunning, prefillSets, workoutDuration } from '../lib/training'
+import { isRunning, prefillSets } from '../lib/training'
 import { KIND_NAMES, newId, type Workout, type WorkoutSet } from '../lib/types'
 import { useStore } from '../state/store'
 import { ExercisePicker } from './ExercisePicker'
 import { IconCheck, IconMinus, IconPlus, IconSwap, IconTrash } from './Icons'
+import { TrackingControls } from './LiveTracking'
 import { NumberField, SavedIndicator } from './ui'
 
-/**
- * Markiert Start und letzten Eintrag – Grundlage für die Trainingsdauer.
- * Nur für ein Training, das heute live läuft; Nachtragen und spätere Korrekturen ändern die Dauer nicht.
- */
+/** Merkt sich bei laufender Zeitmessung den letzten Eintrag (hilft, wenn das Stoppen vergessen wurde). */
 function touch(w: Workout, now = Date.now()): Workout {
-  if (w.finishedAt !== null) return w
-  if (w.startedAt === null) return w.date === localDate(new Date(now)) ? { ...w, startedAt: now, lastEntryAt: now } : w
-  return isRunning(w, now) ? { ...w, lastEntryAt: now } : w
+  return isRunning(w) ? { ...w, lastEntryAt: now } : w
 }
 
-export function WorkoutEditor({ workout, onChange, onFinish }: { workout: Workout; onChange: (w: Workout) => void; onFinish?: () => void }) {
+export function WorkoutEditor({ workout, onChange, onClose }: { workout: Workout; onChange: (w: Workout) => void; onClose?: () => void }) {
   const { exerciseById, settings, data } = useStore()
   const unit = settings.unit
   const [picker, setPicker] = useState<{ mode: 'add' } | { mode: 'swap'; index: number } | null>(null)
-  const [now, setNow] = useState(Date.now())
-  useEffect(() => {
-    const t = window.setInterval(() => setNow(Date.now()), 15_000)
-    return () => window.clearInterval(t)
-  }, [])
 
   const notes = useMemo(() => {
     const plan = data.plans.find((p) => !p.deleted && p.category === workout.kind)
     return new Map((plan?.exercises ?? []).map((e) => [e.exerciseId, e.note]))
   }, [data.plans, workout.kind])
-
-  const duration = workoutDuration(workout, now)
 
   const updateSets = (exIndex: number, fn: (sets: WorkoutSet[]) => WorkoutSet[], markEntry: boolean) => {
     const exercises = workout.exercises.map((e, i) => (i === exIndex ? { ...e, sets: fn(e.sets) } : e))
@@ -69,16 +58,14 @@ export function WorkoutEditor({ workout, onChange, onFinish }: { workout: Workou
           <h1 className="text-2xl font-bold tracking-tight">{KIND_NAMES[workout.kind]}</h1>
           <SavedIndicator />
         </div>
-        <div className="flex items-center gap-3">
-          <input
-            type="date"
-            className="field max-w-44"
-            aria-label="Datum"
-            value={workout.date}
-            onChange={(e) => isValidLocalDate(e.target.value) && onChange({ ...workout, date: e.target.value })}
-          />
-          <span className="text-zinc-500 tabular-nums">{duration !== null ? `⏱ ${formatDuration(duration)}` : 'Noch kein Satz'}</span>
-        </div>
+        <input
+          type="date"
+          className="field max-w-44"
+          aria-label="Datum"
+          value={workout.date}
+          onChange={(e) => isValidLocalDate(e.target.value) && onChange({ ...workout, date: e.target.value })}
+        />
+        <TrackingControls workout={workout} onChange={onChange} />
       </div>
 
       {workout.exercises.length === 0 && (
@@ -173,14 +160,15 @@ export function WorkoutEditor({ workout, onChange, onFinish }: { workout: Workou
       <button className="btn btn-secondary" onClick={() => setPicker({ mode: 'add' })}>
         <IconPlus className="size-5" /> Übung hinzufügen
       </button>
-      {onFinish && (
-        <button className="btn btn-primary" onClick={onFinish}>
-          Fertig
+      {onClose && (
+        <button className="btn btn-secondary" onClick={onClose}>
+          Zurück zur Übersicht
         </button>
       )}
 
       <p className="px-1 text-center text-sm text-zinc-500">
-        Grau = dein letztes Training. Einfach neue Zahl tippen, oder ✓ wenn es gleich geblieben ist. Alles wird automatisch gespeichert.
+        Grau = dein letztes Training. Einfach neue Zahl tippen, oder ✓ wenn es gleich geblieben ist. Alles wird automatisch gespeichert. Die
+        Zeit läuft weiter, auch wenn du die App schließt, bis du auf Stopp tippst.
       </p>
 
       <ExercisePicker

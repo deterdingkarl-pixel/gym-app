@@ -79,11 +79,14 @@ export interface WorkoutExercise {
 export interface Workout extends SyncMeta {
   date: string
   kind: WorkoutKind
-  /** Zeitpunkt des ersten Eintrags. */
+  /** Start der Zeitmessung. */
   startedAt: number | null
-  /** Zeitpunkt des letzten Eintrags. */
+  /** Zeitpunkt des letzten Eintrags, solange die Zeitmessung läuft. */
   lastEntryAt: number | null
+  /** Ende der Zeitmessung. */
   finishedAt: number | null
+  /** true = per Start-Knopf gestartet. Läuft dann, bis es ausdrücklich gestoppt wird. */
+  liveTracked?: boolean
   exercises: WorkoutExercise[]
 }
 
@@ -92,14 +95,44 @@ export interface BodyWeight extends SyncMeta {
   weight: number
 }
 
+/** Ein eingetragener Ruhetag. Die ID hängt am Datum, damit zwei Geräte denselben Tag nicht doppelt anlegen. */
+export interface RestDay extends SyncMeta {
+  date: string
+}
+export const restDayId = (date: string) => `rest-${date}`
+
+export interface StudioItem {
+  uid: string
+  /** ID aus dem Gerätekatalog (src/data/equipment.ts) */
+  type: string
+  x: number
+  y: number
+  /** Vierteldrehungen 0–3 */
+  rot: number
+}
+
+/**
+ * Das eigene Studio (genau ein Eintrag). Ausgegebene Stunden werden nicht gespeichert,
+ * sondern aus Geräten und Ausbaustufe berechnet.
+ */
+export interface Studio extends SyncMeta {
+  name: string
+  /** Ausbaustufe der Fläche, 0 = Startgröße */
+  level: number
+  items: StudioItem[]
+}
+export const STUDIO_ID = 'studio'
+
 export interface TableMap {
   exercises: Exercise
   plans: Plan
   workouts: Workout
   bodyweights: BodyWeight
+  restdays: RestDay
+  studio: Studio
 }
 export type TableName = keyof TableMap
-export const TABLES: TableName[] = ['exercises', 'plans', 'workouts', 'bodyweights']
+export const TABLES: TableName[] = ['exercises', 'plans', 'workouts', 'bodyweights', 'restdays', 'studio']
 export type AnyRecord = TableMap[TableName]
 
 export function newId(): string {

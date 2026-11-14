@@ -3,7 +3,8 @@ import type { LocalStore } from './engine'
 
 // Lokale Datenbank im Browser (IndexedDB). Eine Tabelle pro Datentyp, plus "meta" für Einstellungen/Sync-Stand.
 const DB_NAME = 'gym-app'
-const DB_VERSION = 1
+// Version 2: Tabellen restdays und studio
+const DB_VERSION = 2
 
 function req<T>(r: IDBRequest<T>): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -30,7 +31,11 @@ function open(): Promise<IDBDatabase> {
       for (const t of TABLES) if (!db.objectStoreNames.contains(t)) db.createObjectStore(t, { keyPath: 'id' })
       if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta')
     }
-    r.onsuccess = () => resolve(r.result)
+    r.onsuccess = () => {
+      // Öffnet ein anderer Tab eine neuere Version, die Verbindung freigeben statt ihn zu blockieren
+      r.result.onversionchange = () => r.result.close()
+      resolve(r.result)
+    }
     r.onerror = () => reject(r.error)
   })
   return dbPromise

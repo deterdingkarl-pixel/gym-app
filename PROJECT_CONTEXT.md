@@ -36,8 +36,19 @@ Diese Datei ist für jeden, der weiterarbeitet (auch andere Claude-Chats). Vor �
   auch untrainierte, plus zusätzlich in der Kategorie trainierte. Antippen öffnet den Verlauf der Übung (`/fortschritt/:id`).
 - **Speichern:** Ein neues Training wird erst bei der ersten Eingabe gespeichert; danach jede Änderung sofort.
 - **Gleiche Kategorie am selben Tag** → das bestehende Training wird fortgesetzt.
-- **Dauer:** vom ersten Eintrag bis jetzt, solange das Training läuft (letzter Eintrag < 3 h her und nicht
-  „Fertig“ getippt). Sonst bis zum letzten Eintrag bzw. „Fertig“. Nachgetragene Trainings haben keine Dauer.
+- **Live-Tracking:** Die Zeit läuft nur nach „Training starten“ und bis „Stopp“ (`liveTracked`), auch bei geschlossener App,
+  weil sie immer aus Startzeit und Uhr berechnet wird. Nur ein Training läuft gleichzeitig. Eine Leiste zeigt es auf jeder Seite.
+  Beim Stoppen lässt sich die Dauer anpassen; „Fortsetzen“ zählt die Pause nicht mit; Dauer kann von Hand gesetzt werden.
+  Ältere Trainings ohne `liveTracked` enden am letzten Eintrag.
+- **Ruhetage:** eigene Einträge (`restdays`, ID `rest-<Datum>`). Tag mit Training oder Ruhetag = grün, sonst ab dem ersten
+  Eintrag „ausgelassen“ = rot; heute erst, wenn der Tag vorbei ist (`src/lib/activity.ts`).
+- **Statistik** (Fortschritt → Statistik): Wochenbalken für Dauer, Volumen, Wiederholungen; Vergleich mit dem Zeitraum davor;
+  Spinnennetz mit erledigten Sätzen je Muskelgruppe.
+- **Studio:** Gesammelte Stunden = Dauer aller abgeschlossenen Trainings. Ausgegeben wird nicht gespeichert, sondern aus Geräten
+  und Ausbaustufe berechnet (`src/lib/studio.ts`); Entfernen gibt die Stunden zurück. Katalog mit festen IDs in
+  `src/data/equipment.ts`, Geräte sind selbst gezeichnet (Quader, `src/lib/iso.ts`). Fläche 4×4, je Erweiterung +2 (bis 12×12).
+- **Navigation:** Training, Übersicht, Fortschritt, Studio, Garmin, Mehr. Der Verlauf liegt unter „Mehr“ und in der Übersicht.
+- **Neue Datentypen:** zuerst `supabase/schema.sql` in Supabase ausführen, dann die App veröffentlichen (sonst scheitert das Hochladen).
 - **Wochenserie:** Wochen Mo–So mit ≥ 4 verschiedenen Trainingstagen hintereinander. Die laufende Woche
   zählt, sobald 4 Tage erreicht sind, und unterbricht die Serie nicht, solange sie läuft.
 - **1RM:** Epley-Formel `Gewicht × (1 + Wdh./30)`.

@@ -37,6 +37,11 @@ export const IconWatch = ({ className }: P) => (
     <path d="M9 7l.6-4h4.8L15 7M9 17l.6 4h4.8l.6-4M12 10v2.5l1.5 1" />
   </svg>
 )
+export const IconCube = ({ className }: P) => (
+  <svg {...base(className)}>
+    <path d="M12 3 20 7.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9" />
+  </svg>
+)
 export const IconMore = ({ className }: P) => (
   <svg {...base(className)}>
     <circle cx="5" cy="12" r="1.2" />

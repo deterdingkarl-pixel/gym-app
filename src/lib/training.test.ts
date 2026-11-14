@@ -1,6 +1,17 @@
 import { describe, expect, it } from 'vitest'
 import { SEED_PLANS, missingSeedPlans } from '../data/seedPlans'
-import { buildDraft, findOpenWorkout, lastSetsFor, workoutDuration } from './training'
+import {
+  buildDraft,
+  findOpenWorkout,
+  isRunning,
+  lastSetsFor,
+  resumeTracking,
+  runningWorkout,
+  startTracking,
+  stopTracking,
+  withDuration,
+  workoutDuration,
+} from './training'
 import type { Workout } from './types'
 
 function workout(p: Partial<Workout> & { id: string; date: string }): Workout {
@@ -114,9 +125,10 @@ describe('findOpenWorkout', () => {
 
 describe('workoutDuration', () => {
   const start = 1_000_000
-  it('läuft weiter, solange das Training aktiv ist', () => {
+  it('ältere Trainings ohne Start-Knopf laufen nicht weiter: Ende ist der letzte Eintrag', () => {
     const w = workout({ id: 'a', date: 'x', startedAt: start, lastEntryAt: start + 10 * 60_000 })
-    expect(workoutDuration(w, start + 30 * 60_000)).toBe(30 * 60_000)
+    expect(isRunning(w)).toBe(false)
+    expect(workoutDuration(w, start + 30 * 60_000)).toBe(10 * 60_000)
   })
   it('endet beim letzten Eintrag, wenn die App lange geschlossen war', () => {
     const w = workout({ id: 'a', date: 'x', startedAt: start, lastEntryAt: start + 50 * 60_000 })
@@ -146,5 +158,58 @@ describe('Startplan', () => {
     expect(brust.exercises.find((e) => e.exerciseId === 'enges-rudern')!.sets).toEqual([{ reps: 5, weight: 100 }])
     const arme = SEED_PLANS.find((p) => p.id === 'plan-arme')!
     expect(arme.exercises[0].sets[0]).toEqual({ reps: 7, weight: 47.5 })
+  })
+})
+
+describe('Live-Tracking', () => {
+  const MIN = 60_000
+  const t0 = 1_800_000_000_000
+  const fresh = workout({ id: 'a', date: '2026-11-14' })
+
+  it('läuft nach dem Start, bis es gestoppt wird – auch nach Stunden ohne Eintrag', () => {
+    const w = startTracking(fresh, t0)
+    expect(isRunning(w)).toBe(true)
+    expect(workoutDuration(w, t0 + 5 * 60 * MIN)).toBe(5 * 60 * MIN)
+  })
+
+  it('Einträge allein starten keine Zeitmessung', () => {
+    expect(isRunning(fresh)).toBe(false)
+    expect(workoutDuration(fresh, t0)).toBeNull()
+  })
+
+  it('Stopp hält die Dauer fest', () => {
+    const w = stopTracking(startTracking(fresh, t0), t0 + 70 * MIN)
+    expect(isRunning(w)).toBe(false)
+    expect(workoutDuration(w, t0 + 500 * MIN)).toBe(70 * MIN)
+  })
+
+  it('Stopp mit angepasster Dauer (Stoppen vergessen)', () => {
+    const w = stopTracking(startTracking(fresh, t0), t0 + 600 * MIN, 65 * MIN)
+    expect(workoutDuration(w, 0)).toBe(65 * MIN)
+  })
+
+  it('Fortsetzen zählt die Pause nicht mit', () => {
+    const stopped = stopTracking(startTracking(fresh, t0), t0 + 30 * MIN)
+    const resumed = resumeTracking(stopped, t0 + 50 * MIN)
+    expect(isRunning(resumed)).toBe(true)
+    expect(workoutDuration(resumed, t0 + 60 * MIN)).toBe(40 * MIN)
+  })
+
+  it('gelöschte Trainings laufen nicht', () => {
+    expect(isRunning({ ...startTracking(fresh, t0), deleted: true })).toBe(false)
+  })
+
+  it('runningWorkout findet das laufende Training', () => {
+    const running = startTracking(workout({ id: 'b', date: '2026-11-14' }), t0)
+    expect(runningWorkout([fresh, running, stopTracking(startTracking(fresh, t0), t0 + MIN)])?.id).toBe('b')
+    expect(runningWorkout([fresh])).toBeUndefined()
+  })
+
+  it('Dauer von Hand: setzen, ändern und mit 0 löschen', () => {
+    const manual = withDuration(fresh, 45 * MIN)
+    expect(workoutDuration(manual, 0)).toBe(45 * MIN)
+    expect(isRunning(manual)).toBe(false)
+    expect(workoutDuration(withDuration(manual, 50 * MIN), 0)).toBe(50 * MIN)
+    expect(workoutDuration(withDuration(manual, 0), 0)).toBeNull()
   })
 })

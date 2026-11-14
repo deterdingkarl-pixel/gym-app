@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import { IconChevron } from '../components/Icons'
 
 const LINKS = [
+  { to: '/verlauf', title: 'Verlauf', text: 'Alle Trainings ansehen, bearbeiten, löschen' },
   { to: '/plaene', title: 'Trainingspläne', text: 'Übungen, Zielwerte und Notizen' },
   { to: '/uebungen', title: 'Übungsbibliothek', text: 'Suchen und eigene Übungen verwalten' },
   { to: '/koerpergewicht', title: 'Körpergewicht', text: 'Eintragen und Verlauf' },

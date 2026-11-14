@@ -1,12 +1,14 @@
 import { NavLink, Outlet } from 'react-router'
+import { runningWorkout } from '../lib/training'
 import { useStore } from '../state/store'
-import { IconChart, IconDumbbell, IconHome, IconList, IconMore, IconWatch } from './Icons'
+import { IconChart, IconCube, IconDumbbell, IconHome, IconMore, IconWatch } from './Icons'
+import { LiveBar } from './LiveTracking'
 
 const NAV = [
   { to: '/', label: 'Training', icon: IconDumbbell, end: true },
   { to: '/uebersicht', label: 'Übersicht', icon: IconHome, end: false },
-  { to: '/verlauf', label: 'Verlauf', icon: IconList, end: false },
   { to: '/fortschritt', label: 'Fortschritt', icon: IconChart, end: false },
+  { to: '/studio', label: 'Studio', icon: IconCube, end: false },
   { to: '/garmin', label: 'Garmin', icon: IconWatch, end: false },
   { to: '/mehr', label: 'Mehr', icon: IconMore, end: false },
 ]
@@ -29,9 +31,10 @@ function SyncBadge() {
 }
 
 export function Layout() {
-  const { mode } = useStore()
+  const { mode, data } = useStore()
   // Garmin braucht ein Konto, im Gastmodus bleibt der Reiter weg
   const nav = mode === 'user' ? NAV : NAV.filter((n) => n.to !== '/garmin')
+  const live = runningWorkout(data.workouts) !== undefined
   return (
     <div className="mx-auto min-h-dvh max-w-3xl">
       <header className="pt-safe sticky top-0 z-20 bg-zinc-100/90 backdrop-blur dark:bg-zinc-950/90">
@@ -40,9 +43,10 @@ export function Layout() {
           <SyncBadge />
         </div>
       </header>
-      <main className="pb-nav px-4 pt-2">
+      <main className={`${live ? 'pb-nav-live' : 'pb-nav'} px-4 pt-2`}>
         <Outlet />
       </main>
+      <LiveBar />
       <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-zinc-200 bg-white/95 backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/95">
         <div className="mx-auto grid max-w-3xl" style={{ gridTemplateColumns: `repeat(${nav.length}, minmax(0, 1fr))` }}>
           {nav.map(({ to, label, icon: Icon, end }) => (

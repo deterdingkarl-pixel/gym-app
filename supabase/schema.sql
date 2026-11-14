@@ -6,7 +6,7 @@
 -- Jeder Eintrag ist eine eigene Zeile → es gibt kein „großes JSON, das alles überschreibt“.
 create table if not exists public.records (
   user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
-  kind text not null check (kind in ('exercises', 'plans', 'workouts', 'bodyweights')),
+  kind text not null,
   id text not null,
   data jsonb not null,
   updated_at bigint not null,              -- Änderungszeit vom Gerät (ms), entscheidet „neuer gewinnt“
@@ -16,6 +16,22 @@ create table if not exists public.records (
 );
 
 create index if not exists records_user_server_updated_idx on public.records (user_id, server_updated_at);
+
+-- Erlaubte Datentypen. Kommt in der App ein neuer dazu (TABLES in src/lib/types.ts), muss er hier ergänzt
+-- und diese Datei erneut ausgeführt werden – und zwar BEVOR die neue App-Version online geht,
+-- sonst schlägt das Hochladen fehl. Der Block ersetzt die bisherige Regel.
+do $$
+declare c text;
+begin
+  for c in
+    select conname from pg_constraint
+    where conrelid = 'public.records'::regclass and contype = 'c' and pg_get_constraintdef(oid) like '%kind%'
+  loop
+    execute format('alter table public.records drop constraint %I', c);
+  end loop;
+end $$;
+alter table public.records add constraint records_kind_check
+  check (kind in ('exercises', 'plans', 'workouts', 'bodyweights', 'restdays', 'studio'));
 
 -- Schutzregel auf dem Server: eine ältere Version überschreibt nie eine neuere.
 create or replace function public.records_guard() returns trigger

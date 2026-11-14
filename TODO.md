@@ -19,6 +19,15 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 - [x] Garmin-Reiter am iPhone prüfen
 - [ ] Schlüssel läuft nach spätestens einem Jahr ab: neuen erstellen und in Vercel ersetzen (Garmin erinnert per Mail)
 
+## Live-Tracking, Ruhetage, Statistik, Studio
+
+- [ ] `supabase/schema.sql` in Supabase ausführen (vor dem Veröffentlichen!)
+- [ ] Zweig `feat/studio-tracking-statistik` auf main bringen und veröffentlichen
+- [ ] iPhone: Training starten, App schließen, später öffnen: Zeit stimmt; stoppen
+- [ ] iPhone: Ruhetag eintragen, Kalender und Jahresübersicht prüfen
+- [ ] iPhone: Statistik und Spinnennetz mit echten Daten
+- [ ] iPhone: Gerät kaufen, aufstellen, drehen, verschieben, entfernen; Abgleich mit dem Computer
+
 ## Test am iPhone (Version 1)
 
 - [ ] App zum Home-Bildschirm hinzufügen, Icon und Name „Gym App“ prüfen

@@ -62,7 +62,10 @@ export function useStore(): Store {
   return s
 }
 
-const EMPTY: Data = { exercises: [], plans: [], workouts: [], bodyweights: [] }
+const EMPTY: Data = { exercises: [], plans: [], workouts: [], bodyweights: [], restdays: [], studio: [] }
+
+/** Hochzählen, wenn neue Datentypen dazukommen (siehe Start unten). */
+const DATA_VERSION = 2
 
 async function loadAll(): Promise<Data> {
   const data = { ...EMPTY }
@@ -149,6 +152,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let cancelled = false
     ;(async () => {
+      if ((await idbStore.getMeta<number>('dataVersion')) !== DATA_VERSION) {
+        // Eine ältere App-Version hat Einträge neuer Datentypen beim Abholen übersprungen.
+        // Deshalb einmal alles neu aus der Cloud holen (überschreibt nichts Neueres).
+        await idbStore.setMeta('syncCursor', null)
+        await idbStore.setMeta('dataVersion', DATA_VERSION)
+      }
       await seedPlans()
       const [loaded, storedSettings, storedMode] = await Promise.all([
         loadAll(),

@@ -56,6 +56,10 @@ input[type='date'] {
 .pb-nav {
   padding-bottom: calc(5rem + env(safe-area-inset-bottom));
 }
+/* Mit sichtbarer Live-Tracking-Leiste über der Navigation */
+.pb-nav-live {
+  padding-bottom: calc(9rem + env(safe-area-inset-bottom));
+}
 .pt-safe {
   padding-top: env(safe-area-inset-top);
 }

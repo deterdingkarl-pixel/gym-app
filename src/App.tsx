@@ -13,6 +13,7 @@ import { PlanEditPage } from './pages/PlanEditPage'
 import { PlansPage } from './pages/PlansPage'
 import { ProgressPage } from './pages/ProgressPage'
 import { SettingsPage } from './pages/SettingsPage'
+import { StudioPage } from './pages/StudioPage'
 import { TrainingHomePage } from './pages/TrainingHomePage'
 import { WelcomePage } from './pages/WelcomePage'
 import { WorkoutPage } from './pages/WorkoutPage'
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="verlauf" element={<HistoryPage />} />
           <Route path="fortschritt" element={<ProgressPage />} />
           <Route path="fortschritt/:id" element={<ExerciseProgressPage />} />
+          <Route path="studio" element={<StudioPage />} />
           <Route path="garmin" element={<GarminPage />} />
           <Route path="mehr" element={<MorePage />} />
           <Route path="plaene" element={<PlansPage />} />

@@ -36,6 +36,10 @@ von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systemati
 - **Garmin-Reiter:** Am Computer mit Karls echten Daten geprüft: alle sieben Bereiche kommen an, Feldnamen sind daran angepasst,
   ohne Anmeldung gesperrt. Von Karl am iPhone bestätigt. Ein fremdes Konto online nicht ausprobiert (nur per Test abgesichert).
 
+- **Live-Tracking, Ruhetage, Statistik, Studio (14.11.2026):** auf dem Zweig `feat/studio-tracking-statistik`, noch NICHT online.
+  Tests und Build grün, lokal im Browser (375 px, Gastmodus, erfundene Testdaten) durchgespielt. Vor dem Veröffentlichen muss
+  `supabase/schema.sql` in Supabase ausgeführt werden (neue Datentypen `restdays`, `studio`). Am iPhone und mit Konto ungetestet.
+
 ## Bekannte Einschränkungen
 
 - Bearbeiten desselben Trainings gleichzeitig auf zwei Geräten: die zuletzt gespeicherte Version gewinnt (ganzes Training).

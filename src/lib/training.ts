@@ -1,3 +1,4 @@
+import { parseLocalDate } from './date'
 import type { Plan, TargetSet, Workout, WorkoutExercise, WorkoutKind } from './types'
 
 /** Reihenfolge „neuestes Training zuerst“: nach Datum, dann nach Startzeit. */
@@ -75,14 +76,45 @@ export function findOpenWorkout(workouts: Workout[], kind: WorkoutKind, date: st
   return activeWorkouts(workouts).find((w) => w.kind === kind && w.date === date)
 }
 
-/** Läuft das Training noch? Ja, solange nicht beendet und der letzte Eintrag < 3 h her ist. */
-export function isRunning(w: Workout, now: number): boolean {
-  return w.startedAt !== null && w.finishedAt === null && w.lastEntryAt !== null && now - w.lastEntryAt < 3 * 3600_000
+/**
+ * Läuft die Zeitmessung? Nur ausdrücklich gestartete Trainings laufen, und zwar bis sie gestoppt werden.
+ * Ältere Trainings ohne `liveTracked` gelten als beendet (Ende = letzter Eintrag).
+ */
+export function isRunning(w: Workout): boolean {
+  return w.liveTracked === true && !w.deleted && w.startedAt !== null && w.finishedAt === null
 }
 
 /** Trainingsdauer – immer aus echten Uhrzeiten berechnet, stimmt also auch nach dem Schließen der App. */
 export function workoutDuration(w: Workout, now: number): number | null {
   if (w.startedAt === null) return null
-  const end = isRunning(w, now) ? now : (w.finishedAt ?? w.lastEntryAt ?? w.startedAt)
+  const end = isRunning(w) ? now : (w.finishedAt ?? w.lastEntryAt ?? w.startedAt)
   return Math.max(0, end - w.startedAt)
+}
+
+/** Das gerade laufende Training (bei mehreren das zuletzt gestartete). */
+export function runningWorkout(workouts: Workout[]): Workout | undefined {
+  return workouts.filter(isRunning).sort((a, b) => (b.startedAt ?? 0) - (a.startedAt ?? 0))[0]
+}
+
+export function startTracking(w: Workout, now: number): Workout {
+  return { ...w, liveTracked: true, startedAt: now, lastEntryAt: now, finishedAt: null }
+}
+
+/** Stoppt die Zeitmessung. Mit `durationMs` zählt diese Dauer statt der gemessenen (z. B. Stoppen vergessen). */
+export function stopTracking(w: Workout, now: number, durationMs?: number): Workout {
+  const start = w.startedAt ?? now
+  return { ...w, startedAt: start, finishedAt: durationMs === undefined ? now : start + Math.max(0, durationMs) }
+}
+
+/** Setzt ein gestopptes Training fort. Die Pause zählt nicht mit: Der Start rückt um die Pause nach hinten. */
+export function resumeTracking(w: Workout, now: number): Workout {
+  const elapsed = workoutDuration(w, now) ?? 0
+  return { ...w, liveTracked: true, startedAt: now - elapsed, lastEntryAt: now, finishedAt: null }
+}
+
+/** Dauer von Hand setzen (Nachtragen oder Korrektur). 0 löscht die Dauer. */
+export function withDuration(w: Workout, durationMs: number): Workout {
+  if (durationMs <= 0) return { ...w, liveTracked: false, startedAt: null, lastEntryAt: null, finishedAt: null }
+  const start = w.startedAt ?? parseLocalDate(w.date).getTime() + 12 * 3600_000
+  return { ...w, startedAt: start, finishedAt: start + durationMs }
 }
