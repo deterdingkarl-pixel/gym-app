@@ -44,7 +44,7 @@ von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systemati
 - **Pausen-Timer und „Stoppen vergessen?“ (15.11.2026):** online (Version mit „Stoppen vergessen“ wird ausgeliefert). Tests und Build grün;
   lokal im Browser (375 px, Gastmodus, Testdaten danach gelöscht) geprüft: Pause startet beim Abhaken, ±15, „Pause vorbei“;
   Hinweis erscheint bei einem künstlich 3 h alten Training, „Bis zum letzten Eintrag beenden“ speichert 75 statt 190 min;
-  Einstellung „Pause zwischen den Sätzen“. Von Karl am iPhone bestätigt (Pause, Einstellung). Den Piepton hat Karl nicht gehört und will keine Töne: entfernt (lokal, noch nicht online); der Hinweis „Stoppen vergessen?“ ist am iPhone noch nicht aufgetreten.
+  Einstellung „Pause zwischen den Sätzen“. Von Karl am iPhone bestätigt (Pause, Einstellung). Den Piepton hat Karl nicht gehört und will keine Töne: entfernt und online (15.11.2026); der Hinweis „Stoppen vergessen?“ ist am iPhone noch nicht aufgetreten.
 - Ältere Trainings haben teils zu lange Dauern (z. B. 301 min), weil die frühere Automatik bis zur letzten Änderung zählte.
   Sie zählen so als Studio-Stunden; Karl kann sie im Training über „Dauer … ändern“ korrigieren.
 
