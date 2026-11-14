@@ -49,8 +49,7 @@ export function SettingsPage() {
           onChange={(v) => void setSettings({ restSeconds: Number(v) })}
         />
         <p className="text-sm text-zinc-500">
-          Startet von selbst, wenn du bei laufendem Training einen Satz abhakst. Am Ende piept es, solange die App offen und das iPhone nicht
-          stumm geschaltet ist.
+          Startet von selbst, wenn du bei laufendem Training einen Satz abhakst. Ohne Ton: Am Ende wird die Anzeige grün.
         </p>
       </section>
 

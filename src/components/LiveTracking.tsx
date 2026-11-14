@@ -14,7 +14,7 @@ import {
   workoutDuration,
 } from '../lib/training'
 import { KIND_NAMES, type Workout } from '../lib/types'
-import { setRestTimer, unlockAudio, useRestTimer } from '../state/restTimer'
+import { setRestTimer, useRestTimer } from '../state/restTimer'
 import { useStore } from '../state/store'
 import { NumberField, Sheet } from './ui'
 
@@ -271,7 +271,6 @@ export function TrackingControls({ workout, onChange }: { workout: Workout; onCh
   const duration = workoutDuration(workout, now)
 
   const start = () => {
-    unlockAudio()
     const other = runningWorkout(data.workouts)
     if (other && other.id !== workout.id) {
       window.alert(`Es läuft schon ein Training (${KIND_NAMES[other.kind]}). Stoppe es zuerst.`)

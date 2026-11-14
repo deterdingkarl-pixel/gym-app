@@ -43,7 +43,7 @@ Diese Datei ist für jeden, der weiterarbeitet (auch andere Claude-Chats). Vor �
   „Bis zum letzten Eintrag beenden“, „Anders beenden“, „Läuft noch“ (30 min Ruhe, nur auf diesem Gerät). `looksForgotten` in `training.ts`.
 - **Pausen-Timer:** Startet beim Abhaken eines Satzes, nur bei laufendem Training. Länge in den Einstellungen (Standard 2 min,
   Einstellung nur pro Gerät), ±15 s in der Leiste. Gespeichert wird nur das Ende (`localStorage`, nicht abgeglichen), läuft also
-  nach dem Schließen weiter. Ton per Web Audio nur bei offener App und ohne Stummschaltung; iPhone kann nicht vibrieren.
+  nach dem Schließen weiter. Kein Ton (Karl will keine Töne); am Ende wird die Anzeige grün.
   Kein Steigerungsvorschlag – Karl will das nicht (trainiert in 4–8 Wdh. und entscheidet selbst).
   Ältere Trainings ohne `liveTracked` enden am letzten Eintrag.
 - **Ruhetage:** eigene Einträge (`restdays`, ID `rest-<Datum>`). Tag mit Training oder Ruhetag = grün, sonst ab dem ersten

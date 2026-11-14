@@ -34,7 +34,6 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 
 - [x] Veröffentlichen
 - [x] iPhone: Training starten, Satz abhaken → Pause läuft; ±15, Ende; App schließen und wieder öffnen → Pause stimmt
-- [ ] iPhone: Piepton am Ende (App offen, nicht stumm); Musik läuft dabei weiter
 - [x] iPhone: Pausenlänge in den Einstellungen ändern
 - [ ] iPhone: Hinweis „Stoppen vergessen?“ erscheint bei einem vergessenen Training
 
