@@ -34,6 +34,10 @@ Am iPhone im selben WLAN testen: `npm run dev -- --host` und die angezeigte Netz
 4. **Authentication → Sign In / Providers → Email**: aktiviert lassen. „Confirm email“ darf an bleiben.
 5. **Authentication → URL Configuration → Site URL**: die Vercel-Adresse eintragen.
 
+**Bei neuen Datentypen** (zuletzt `restdays` und `studio`): `supabase/schema.sql` erneut im SQL Editor ausführen, und zwar
+bevor die neue App-Version online geht. Sonst lehnt die Datenbank die neuen Einträge ab und der Abgleich bleibt hängen.
+Mehrfaches Ausführen ist unschädlich.
+
 ## Deployment (Vercel über GitHub)
 
 1. Repo auf GitHub anlegen (privat, ohne README) und pushen.
