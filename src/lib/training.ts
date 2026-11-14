@@ -118,3 +118,20 @@ export function withDuration(w: Workout, durationMs: number): Workout {
   const start = w.startedAt ?? parseLocalDate(w.date).getTime() + 12 * 3600_000
   return { ...w, startedAt: start, finishedAt: start + durationMs }
 }
+
+/** Ab hier fragt die App nach, ob das Stoppen vergessen wurde */
+export const FORGOT_IDLE_MS = 45 * 60_000
+export const FORGOT_TOTAL_MS = 150 * 60_000
+
+/** Läuft das Training verdächtig lange: kein Eintrag seit 45 Minuten oder insgesamt über 2,5 Stunden? */
+export function looksForgotten(w: Workout, now: number): boolean {
+  if (!isRunning(w) || w.startedAt === null) return false
+  const lastEntry = w.lastEntryAt ?? w.startedAt
+  return now - lastEntry > FORGOT_IDLE_MS || now - w.startedAt > FORGOT_TOTAL_MS
+}
+
+/** Dauer bis zum letzten Eintrag (0, wenn seit dem Start nichts eingetragen wurde) */
+export function durationUntilLastEntry(w: Workout): number {
+  if (w.startedAt === null || w.lastEntryAt === null) return 0
+  return Math.max(0, w.lastEntryAt - w.startedAt)
+}

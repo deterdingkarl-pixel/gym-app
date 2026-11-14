@@ -58,7 +58,8 @@ input[type='date'] {
 }
 /* Mit sichtbarer Live-Tracking-Leiste über der Navigation */
 .pb-nav-live {
-  padding-bottom: calc(9rem + env(safe-area-inset-bottom));
+  /* --live-h: Höhe der Leiste (wächst mit Pausen-Timer und Hinweisen), setzt LiveBar */
+  padding-bottom: calc(5rem + var(--live-h, 4rem) + env(safe-area-inset-bottom));
 }
 .pt-safe {
   padding-top: env(safe-area-inset-top);

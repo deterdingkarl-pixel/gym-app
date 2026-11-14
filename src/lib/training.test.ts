@@ -1,10 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { SEED_PLANS, missingSeedPlans } from '../data/seedPlans'
 import {
+  FORGOT_IDLE_MS,
+  FORGOT_TOTAL_MS,
   buildDraft,
+  durationUntilLastEntry,
   findOpenWorkout,
   isRunning,
   lastSetsFor,
+  looksForgotten,
   resumeTracking,
   runningWorkout,
   startTracking,
@@ -211,5 +215,36 @@ describe('Live-Tracking', () => {
     expect(isRunning(manual)).toBe(false)
     expect(workoutDuration(withDuration(manual, 50 * MIN), 0)).toBe(50 * MIN)
     expect(workoutDuration(withDuration(manual, 0), 0)).toBeNull()
+  })
+})
+
+describe('Stoppen vergessen', () => {
+  const t0 = new Date(2026, 10, 14, 18, 0).getTime()
+  const fresh = workout({ id: 'f', date: '2026-11-14' })
+
+  it('fragt nach, wenn lange nichts eingetragen wurde', () => {
+    const w = { ...startTracking(fresh, t0), lastEntryAt: t0 + 30 * 60_000 }
+    expect(looksForgotten(w, t0 + 30 * 60_000 + FORGOT_IDLE_MS)).toBe(false)
+    expect(looksForgotten(w, t0 + 30 * 60_000 + FORGOT_IDLE_MS + 1)).toBe(true)
+  })
+
+  it('fragt nach, wenn das Training insgesamt zu lange läuft, auch mit Einträgen', () => {
+    const at = t0 + FORGOT_TOTAL_MS + 1
+    expect(looksForgotten({ ...startTracking(fresh, t0), lastEntryAt: at - 60_000 }, at)).toBe(true)
+    expect(looksForgotten({ ...startTracking(fresh, t0), lastEntryAt: at - 60_000 }, t0 + FORGOT_TOTAL_MS)).toBe(false)
+  })
+
+  it('fragt bei gestoppten und alten Trainings nie nach', () => {
+    const stopped = stopTracking(startTracking(fresh, t0), t0 + 60_000)
+    expect(looksForgotten(stopped, t0 + 10 * FORGOT_TOTAL_MS)).toBe(false)
+    expect(looksForgotten({ ...fresh, startedAt: t0, lastEntryAt: t0 }, t0 + 10 * FORGOT_TOTAL_MS)).toBe(false)
+  })
+
+  it('beendet bis zum letzten Eintrag', () => {
+    const w = { ...startTracking(fresh, t0), lastEntryAt: t0 + 70 * 60_000 }
+    expect(durationUntilLastEntry(w)).toBe(70 * 60_000)
+    const stopped = stopTracking(w, t0 + 300 * 60_000, durationUntilLastEntry(w))
+    expect(workoutDuration(stopped, t0 + 400 * 60_000)).toBe(70 * 60_000)
+    expect(durationUntilLastEntry(fresh)).toBe(0)
   })
 })

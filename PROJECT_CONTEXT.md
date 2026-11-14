@@ -39,6 +39,12 @@ Diese Datei ist für jeden, der weiterarbeitet (auch andere Claude-Chats). Vor �
 - **Live-Tracking:** Die Zeit läuft nur nach „Training starten“ und bis „Stopp“ (`liveTracked`), auch bei geschlossener App,
   weil sie immer aus Startzeit und Uhr berechnet wird. Nur ein Training läuft gleichzeitig. Eine Leiste zeigt es auf jeder Seite.
   Beim Stoppen lässt sich die Dauer anpassen; „Fortsetzen“ zählt die Pause nicht mit; Dauer kann von Hand gesetzt werden.
+- **Stoppen vergessen:** Kein Eintrag seit 45 min oder insgesamt über 2,5 h → gelber Hinweis in der Leiste mit
+  „Bis zum letzten Eintrag beenden“, „Anders beenden“, „Läuft noch“ (30 min Ruhe, nur auf diesem Gerät). `looksForgotten` in `training.ts`.
+- **Pausen-Timer:** Startet beim Abhaken eines Satzes, nur bei laufendem Training. Länge in den Einstellungen (Standard 2 min,
+  Einstellung nur pro Gerät), ±15 s in der Leiste. Gespeichert wird nur das Ende (`localStorage`, nicht abgeglichen), läuft also
+  nach dem Schließen weiter. Ton per Web Audio nur bei offener App und ohne Stummschaltung; iPhone kann nicht vibrieren.
+  Kein Steigerungsvorschlag – Karl will das nicht (trainiert in 4–8 Wdh. und entscheidet selbst).
   Ältere Trainings ohne `liveTracked` enden am letzten Eintrag.
 - **Ruhetage:** eigene Einträge (`restdays`, ID `rest-<Datum>`). Tag mit Training oder Ruhetag = grün, sonst ab dem ersten
   Eintrag „ausgelassen“ = rot; heute erst, wenn der Tag vorbei ist (`src/lib/activity.ts`).

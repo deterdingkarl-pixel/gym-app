@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { BUILTIN_EXERCISES, normalizeName } from '../data/exercises'
 import { missingSeedPlans } from '../data/seedPlans'
 import type { Unit } from '../lib/numbers'
+import { DEFAULT_REST_SECONDS, validRestSeconds } from '../lib/rest'
 import { TABLES, newId, type AnyRecord, type Exercise, type Muscle, type TableMap, type TableName } from '../lib/types'
 import { createBackup, importBackup, parseBackup } from '../sync/backup'
 import { countPending, syncOnce } from '../sync/engine'
@@ -12,8 +13,10 @@ export type Theme = 'system' | 'light' | 'dark'
 export interface Settings {
   unit: Unit
   theme: Theme
+  /** Pausenlänge zwischen den Sätzen in Sekunden */
+  restSeconds: number
 }
-const DEFAULT_SETTINGS: Settings = { unit: 'kg', theme: 'system' }
+const DEFAULT_SETTINGS: Settings = { unit: 'kg', theme: 'system', restSeconds: DEFAULT_REST_SECONDS }
 
 /** none = noch nicht entschieden (Willkommen-Seite), guest = nur lokal, user = angemeldet */
 export type Mode = 'none' | 'guest' | 'user'
@@ -167,6 +170,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (cancelled) return
       setData(loaded)
       const s = { ...DEFAULT_SETTINGS, ...storedSettings }
+      s.restSeconds = validRestSeconds(s.restSeconds)
       setSettingsState(s)
       applyTheme(s.theme)
 

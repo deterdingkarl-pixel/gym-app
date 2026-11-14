@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react'
 import { PageHeader, Segmented } from '../components/ui'
 import { localDate } from '../lib/date'
+import { REST_CHOICES } from '../lib/rest'
+
+const restLabel = (s: number) => (s % 60 === 0 ? `${s / 60} min` : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`)
 import { useStore, type Theme } from '../state/store'
 
 export function SettingsPage() {
@@ -36,6 +39,19 @@ export function SettingsPage() {
         <h2 className="font-semibold">Gewichtseinheit</h2>
         <Segmented value={settings.unit} options={[['kg', 'kg'], ['lb', 'lb']]} onChange={(unit) => void setSettings({ unit })} />
         <p className="text-sm text-zinc-500">Gespeichert wird intern immer in kg, lb ist nur die Anzeige.</p>
+      </section>
+
+      <section className="card flex flex-col gap-2">
+        <h2 className="font-semibold">Pause zwischen den Sätzen</h2>
+        <Segmented
+          value={String(settings.restSeconds)}
+          options={REST_CHOICES.map((s): [string, string] => [String(s), restLabel(s)])}
+          onChange={(v) => void setSettings({ restSeconds: Number(v) })}
+        />
+        <p className="text-sm text-zinc-500">
+          Startet von selbst, wenn du bei laufendem Training einen Satz abhakst. Am Ende piept es, solange die App offen und das iPhone nicht
+          stumm geschaltet ist.
+        </p>
       </section>
 
       <section className="card flex flex-col gap-2">

@@ -30,6 +30,14 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 - [x] iPhone: Gerät kaufen, aufstellen, drehen; Abgleich mit dem Computer
 - [ ] iPhone: Gerät verschieben und entfernen (Stunden kommen zurück), Studio erweitern
 
+## Pausen-Timer und „Stoppen vergessen?“
+
+- [ ] Veröffentlichen
+- [ ] iPhone: Training starten, Satz abhaken → Pause läuft; ±15, Ende; App schließen und wieder öffnen → Pause stimmt
+- [ ] iPhone: Piepton am Ende (App offen, nicht stumm); Musik läuft dabei weiter
+- [ ] iPhone: Pausenlänge in den Einstellungen ändern
+- [ ] iPhone: Hinweis „Stoppen vergessen?“ erscheint bei einem vergessenen Training
+
 ## Test am iPhone (Version 1)
 
 - [ ] App zum Home-Bildschirm hinzufügen, Icon und Name „Gym App“ prüfen

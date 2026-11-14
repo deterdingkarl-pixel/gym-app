@@ -3,6 +3,7 @@ import { isValidLocalDate } from '../lib/date'
 import { fromDisplayWeight, toDisplayWeight } from '../lib/numbers'
 import { isRunning, prefillSets } from '../lib/training'
 import { KIND_NAMES, newId, type Workout, type WorkoutSet } from '../lib/types'
+import { beginRest } from '../state/restTimer'
 import { useStore } from '../state/store'
 import { ExercisePicker } from './ExercisePicker'
 import { IconCheck, IconMinus, IconPlus, IconSwap, IconTrash } from './Icons'
@@ -30,11 +31,19 @@ export function WorkoutEditor({ workout, onChange, onClose }: { workout: Workout
     onChange(markEntry ? touch(next) : next)
   }
 
-  const setValue = (exIndex: number, setIndex: number, patch: Partial<WorkoutSet>) =>
+  // Die Pause startet, sobald ein Satz erledigt ist – aber nur, wenn das Training gerade läuft
+  const restAfterSet = () => {
+    if (isRunning(workout)) beginRest(workout.id, settings.restSeconds)
+  }
+
+  const setValue = (exIndex: number, setIndex: number, patch: Partial<WorkoutSet>) => {
+    if (!workout.exercises[exIndex].sets[setIndex].done) restAfterSet()
     updateSets(exIndex, (sets) => sets.map((s, i) => (i === setIndex ? { ...s, ...patch, done: true } : s)), true)
+  }
 
   const toggleDone = (exIndex: number, setIndex: number) => {
     const becomesDone = !workout.exercises[exIndex].sets[setIndex].done
+    if (becomesDone) restAfterSet()
     updateSets(exIndex, (sets) => sets.map((s, i) => (i === setIndex ? { ...s, done: becomesDone } : s)), becomesDone)
   }
 
