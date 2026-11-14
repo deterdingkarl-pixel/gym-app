@@ -38,8 +38,9 @@ von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systemati
 
 - **Live-Tracking, Ruhetage, Statistik, Studio (14.11.2026):** online. Tests und Build grün, lokal im Browser (375 px, Gastmodus,
   erfundene Testdaten) durchgespielt. Supabase erlaubt die neuen Datentypen `restdays` und `studio`. Online mit Karls Konto nur
-  lesend geprüft (App lädt, „Synchron“, Studio zeigt die gesammelten Stunden). Am iPhone ungetestet; noch kein Ruhetag und kein
-  Studio-Eintrag wurde wirklich in die Cloud geschrieben.
+  lesend geprüft (App lädt, „Synchron“, Studio zeigt die gesammelten Stunden). Von Karl am iPhone bestätigt (14.11.2026):
+  Training starten/App schließen/stoppen, Ruhetag und Kalender, Statistik mit Spinnennetz, Gerät kaufen/aufstellen/drehen
+  und Abgleich mit dem Computer. Noch offen: Gerät verschieben und entfernen, Studio erweitern.
 - Ältere Trainings haben teils zu lange Dauern (z. B. 301 min), weil die frühere Automatik bis zur letzten Änderung zählte.
   Sie zählen so als Studio-Stunden; Karl kann sie im Training über „Dauer … ändern“ korrigieren.
 
