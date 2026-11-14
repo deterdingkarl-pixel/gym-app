@@ -21,8 +21,9 @@ Nur abhaken, was wirklich getestet funktioniert (am besten am iPhone).
 
 ## Live-Tracking, Ruhetage, Statistik, Studio
 
-- [ ] `supabase/schema.sql` in Supabase ausführen (vor dem Veröffentlichen!)
-- [ ] Zweig `feat/studio-tracking-statistik` auf main bringen und veröffentlichen
+- [x] `supabase/schema.sql` in Supabase ausführen (vor dem Veröffentlichen!)
+- [x] Zweig `feat/studio-tracking-statistik` auf main bringen und veröffentlichen
+- [ ] Zu lange Dauern älterer Trainings korrigieren (02.11., 09.11., 14.11.)
 - [ ] iPhone: Training starten, App schließen, später öffnen: Zeit stimmt; stoppen
 - [ ] iPhone: Ruhetag eintragen, Kalender und Jahresübersicht prüfen
 - [ ] iPhone: Statistik und Spinnennetz mit echten Daten
