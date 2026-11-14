@@ -41,7 +41,7 @@ von Karl getestet. Die übrigen Funktionen sind am iPhone noch **nicht systemati
   lesend geprüft (App lädt, „Synchron“, Studio zeigt die gesammelten Stunden). Von Karl am iPhone bestätigt (14.11.2026):
   Training starten/App schließen/stoppen, Ruhetag und Kalender, Statistik mit Spinnennetz, Gerät kaufen/aufstellen/drehen
   und Abgleich mit dem Computer. Noch offen: Gerät verschieben und entfernen, Studio erweitern.
-- **Pausen-Timer und „Stoppen vergessen?“ (15.11.2026):** auf Zweig `feat/pausen-timer`, noch nicht online. Tests und Build grün;
+- **Pausen-Timer und „Stoppen vergessen?“ (15.11.2026):** online (Version mit „Stoppen vergessen“ wird ausgeliefert). Tests und Build grün;
   lokal im Browser (375 px, Gastmodus, Testdaten danach gelöscht) geprüft: Pause startet beim Abhaken, ±15, „Pause vorbei“;
   Hinweis erscheint bei einem künstlich 3 h alten Training, „Bis zum letzten Eintrag beenden“ speichert 75 statt 190 min;
   Einstellung „Pause zwischen den Sätzen“. Piepton und Verhalten am iPhone ungetestet.
